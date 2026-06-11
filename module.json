@@ -1,0 +1,44 @@
+{
+  "id": "sogrom-dnd5e-actiontracker",
+  "title": "Action Economy Tracker",
+  "description": "Adds Action, Bonus Action, and Reaction trackers to the dnd5e character and NPC sheet headers. The trackers automatically mark themselves as used when the actor activates a matching activity during combat, and reset at the start of the actor's turn.",
+  "version": "1.0.0",
+  "authors": [
+    {
+      "name": "sogrom"
+    }
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "esmodules": [
+    "scripts/main.mjs"
+  ],
+  "styles": [
+    "styles/action-tracker.css"
+  ],
+  "relationships": {
+    "systems": [
+      {
+        "id": "dnd5e",
+        "type": "system",
+        "compatibility": {
+          "minimum": "4",
+          "verified": "5.3.3"
+        }
+      }
+    ]
+  },
+  "compatibility": {
+    "minimum": "13",
+    "verified": "14.364",
+    "maximum": "14"
+  },
+  "url": "",
+  "manifest": "",
+  "download": ""
+}

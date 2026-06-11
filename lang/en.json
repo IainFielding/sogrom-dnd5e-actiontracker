@@ -1,0 +1,22 @@
+{
+  "SOGROM": {
+    "ACTIONTRACKER": {
+      "Action": "Action",
+      "BonusAction": "Bonus Action",
+      "Reaction": "Reaction",
+      "Available": "Available",
+      "Used": "Used",
+      "Tooltip": "{type}: {state}",
+      "Settings": {
+        "ShowOnPlayer": {
+          "Name": "Show Action Economy on Player Sheets",
+          "Hint": "Display the Action, Bonus Action, and Reaction trackers in the header of player character sheets."
+        },
+        "ShowOnNPC": {
+          "Name": "Show Action Economy on NPC Sheets",
+          "Hint": "Display the Action, Bonus Action, and Reaction trackers in the header of NPC sheets."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,36 @@
+/* Action Economy Tracker - header buttons */
+
+.dnd5e2 .sheet-header-buttons .sogrom-economy-tracker {
+  position: relative;
+  cursor: pointer;
+}
+
+.dnd5e2 .sheet-header-buttons .sogrom-economy-tracker:disabled {
+  cursor: default;
+}
+
+.dnd5e2 .sheet-header-buttons .sogrom-economy-tracker.sogrom-depleted {
+  opacity: 0.4;
+  filter: grayscale(1);
+}
+
+.dnd5e2 .sheet-header-buttons .sogrom-economy-tracker.sogrom-depleted::before {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: 3px;
+  pointer-events: none;
+  background: linear-gradient(
+    to top right,
+    transparent calc(50% - 1px),
+    var(--dnd5e-color-gold) calc(50% - 1px),
+    var(--dnd5e-color-gold) calc(50% + 1px),
+    transparent calc(50% + 1px)
+  );
+}
+
+/* Character sheet header buttons are absolutely positioned and have no room for the
+   extra trackers, so shift the whole button row left by roughly two icon-widths. */
+.dnd5e2.character .sheet-header-buttons {
+  transform: translateX(-76px);
+}
