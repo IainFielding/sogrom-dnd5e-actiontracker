@@ -72,14 +72,8 @@
   overflow: visible;
 }
 
-.sogrom-tracker-tray {
-  --panel-height: 56px;
-  --lip: 7px;
+.sogrom-tracker-anchor {
   --tx: 0px;
-  --ty: calc(var(--panel-height) + var(--lip));
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   position: absolute;
   /* .main-content has an 8px left padding that offsets the sidebar/portrait/death-tray
      from the edge of .sheet-header; match that offset so the tray lines up with them. */
@@ -89,32 +83,46 @@
   /* Below the portrait card (z-index: 1) so the lip overlap sits behind/underneath
      the portrait's edge, like the sidebar collapser tab. */
   z-index: 0;
-  transform: translate(var(--tx), var(--ty));
-  transition: transform 300ms ease;
+  transform: translateX(var(--tx));
+  /* Match the sidebar's own collapse motion (.sidebar { transition: margin-left 450ms ease }). */
+  transition: transform 450ms ease, opacity 300ms ease;
 }
 
-/* Open: slide the whole tray up so the tab moves on top of the now-visible panel,
-   and raise it above the portrait card so the panel itself is visible. */
-.sogrom-tracker-tray.sogrom-open {
-  --ty: 0px;
+/* Raise above the portrait card so the open panel is visible. */
+.sogrom-tracker-anchor.sogrom-open {
   z-index: 3;
 }
 
 /* Slide the tray out with the rest of the sidebar when it is collapsed, fading it
    out so it disappears by the time it would have moved out of view. */
-.dnd5e2.character.sidebar-collapsed .sogrom-tracker-tray {
+.dnd5e2.character.sidebar-collapsed .sogrom-tracker-anchor {
   --tx: calc(var(--dnd5e-sheet-sidebar-width) * -1);
   opacity: 0;
   pointer-events: none;
-  transition: transform 300ms ease, opacity 300ms ease;
 }
 
 /* The tray is anchored to the header, but the portrait it sits on scrolls with
    .main-content - hide it once the portrait has scrolled out from under it. */
-.sogrom-tracker-tray.sogrom-scrolled {
+.sogrom-tracker-anchor.sogrom-scrolled {
   opacity: 0;
   pointer-events: none;
   transition: opacity 150ms ease;
+}
+
+.sogrom-tracker-tray {
+  --panel-height: 56px;
+  --lip: 7px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translateY(calc(var(--panel-height) + var(--lip)));
+  /* Matches the death-tray's "anticipation" easing (.death-tray { transition: top 450ms cubic-bezier(.36, 0, .66, -.56) }). */
+  transition: transform 450ms cubic-bezier(.36, 0, .66, -.56);
+}
+
+/* Open: slide the tray up so the tab moves on top of the now-visible panel. */
+.sogrom-tracker-anchor.sogrom-open .sogrom-tracker-tray {
+  transform: translateY(0);
 }
 
 .sogrom-tracker-tab {
@@ -156,7 +164,7 @@
   transition: opacity 200ms ease, visibility 0s linear 200ms;
 }
 
-.sogrom-tracker-tray.sogrom-open .sogrom-tracker-panel {
+.sogrom-tracker-anchor.sogrom-open .sogrom-tracker-panel {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;

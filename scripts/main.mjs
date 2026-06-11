@@ -140,9 +140,12 @@ function injectPortraitTray(app, element, indicators) {
 
   const open = !!app._sogromTrackerTrayOpen;
 
+  const anchor = document.createElement("div");
+  anchor.classList.add("sogrom-tracker-anchor");
+  if (open) anchor.classList.add("sogrom-open");
+
   const tray = document.createElement("div");
   tray.classList.add("sogrom-tracker-tray");
-  if (open) tray.classList.add("sogrom-open");
 
   const tab = document.createElement("button");
   tab.type = "button";
@@ -162,13 +165,14 @@ function injectPortraitTray(app, element, indicators) {
   for (const indicator of indicators) panel.appendChild(indicator);
 
   tab.addEventListener("click", () => {
-    const isOpen = tray.classList.toggle("sogrom-open");
+    const isOpen = anchor.classList.toggle("sogrom-open");
     tab.setAttribute("aria-expanded", String(isOpen));
     app._sogromTrackerTrayOpen = isOpen;
   });
 
   tray.append(tab, panel);
-  header.appendChild(tray);
+  anchor.appendChild(tray);
+  header.appendChild(anchor);
 
   // The tray is anchored to the header (so the panel can expand over it), but the
   // portrait it's attached to scrolls with .main-content. Hide the tray once the
@@ -176,7 +180,7 @@ function injectPortraitTray(app, element, indicators) {
   const mainContent = element.querySelector(".main-content");
   if (mainContent) {
     if (mainContent._sogromScrollHandler) mainContent.removeEventListener("scroll", mainContent._sogromScrollHandler);
-    const handler = () => tray.classList.toggle("sogrom-scrolled", mainContent.scrollTop > 0);
+    const handler = () => anchor.classList.toggle("sogrom-scrolled", mainContent.scrollTop > 0);
     mainContent.addEventListener("scroll", handler, { passive: true });
     mainContent._sogromScrollHandler = handler;
     handler();
@@ -201,7 +205,7 @@ function injectPortraitTrackers(app, element, actor, indicators) {
  * @param {HTMLElement} element
  */
 function removeExistingTrackers(element) {
-  for (const selector of [".sogrom-economy-tracker", ".sogrom-economy-tracker-row", ".sogrom-tracker-tray"]) {
+  for (const selector of [".sogrom-economy-tracker", ".sogrom-economy-tracker-row", ".sogrom-tracker-anchor"]) {
     for (const node of element.querySelectorAll(selector)) node.remove();
   }
   element.querySelector(".sheet-header-buttons.sogrom-has-tracker")?.classList.remove("sogrom-has-tracker");
