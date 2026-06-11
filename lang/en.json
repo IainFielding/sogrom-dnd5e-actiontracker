@@ -7,14 +7,23 @@
       "Available": "Available",
       "Used": "Used",
       "Tooltip": "{type}: {state}",
+      "Tray": "Action Economy",
       "Settings": {
-        "ShowOnPlayer": {
-          "Name": "Show Action Economy on Player Sheets",
-          "Hint": "Display the Action, Bonus Action, and Reaction trackers in the header of player character sheets."
+        "Enabled": {
+          "Name": "Enable Action Tracker",
+          "Hint": "Globally enable or disable the Action, Bonus Action, and Reaction trackers on character and NPC sheets."
         },
-        "ShowOnNPC": {
-          "Name": "Show Action Economy on NPC Sheets",
-          "Hint": "Display the Action, Bonus Action, and Reaction trackers in the header of NPC sheets."
+        "PlayerPosition": {
+          "Name": "Player Sheet Tracker Position",
+          "Hint": "Choose where the Action, Bonus Action, and Reaction trackers are displayed on player character sheets."
+        },
+        "NPCPosition": {
+          "Name": "NPC Sheet Tracker Position",
+          "Hint": "Choose where the Action, Bonus Action, and Reaction trackers are displayed on NPC sheets."
+        },
+        "TrackerPosition": {
+          "Header": "Header (next to the rest buttons)",
+          "Portrait": "Portrait (near the character/token portrait)"
         }
       }
     }

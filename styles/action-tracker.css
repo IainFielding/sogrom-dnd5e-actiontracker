@@ -1,20 +1,16 @@
-/* Action Economy Tracker - header buttons */
+/* Action Economy Tracker */
 
-.dnd5e2 .sheet-header-buttons .sogrom-economy-tracker {
+.sogrom-economy-tracker {
   position: relative;
-  cursor: pointer;
-}
-
-.dnd5e2 .sheet-header-buttons .sogrom-economy-tracker:disabled {
   cursor: default;
 }
 
-.dnd5e2 .sheet-header-buttons .sogrom-economy-tracker.sogrom-depleted {
+.sogrom-economy-tracker.sogrom-depleted {
   opacity: 0.4;
   filter: grayscale(1);
 }
 
-.dnd5e2 .sheet-header-buttons .sogrom-economy-tracker.sogrom-depleted::before {
+.sogrom-economy-tracker.sogrom-depleted::before {
   content: "";
   position: absolute;
   inset: 3px;
@@ -29,8 +25,146 @@
   );
 }
 
+/* ---------------------------------- */
+/*  Header position                   */
+/* ---------------------------------- */
+
 /* Character sheet header buttons are absolutely positioned and have no room for the
-   extra trackers, so shift the whole button row left by roughly two icon-widths. */
-.dnd5e2.character .sheet-header-buttons {
+   extra trackers, so shift the whole button row left by roughly two icon-widths
+   when the trackers are placed in the header. */
+.dnd5e2.character .sheet-header-buttons.sogrom-has-tracker {
   transform: translateX(-76px);
+}
+
+/* The NPC sheet's rest buttons are smaller (26px) than the default .gold-button size,
+   but that rule only targets <button> elements, so match it here for our <div> trackers. */
+.dnd5e2.npc .sheet-header-buttons .sogrom-economy-tracker {
+  width: 26px;
+  height: 26px;
+  font-size: var(--font-size-12);
+}
+
+/* ---------------------------------- */
+/*  Portrait position - NPC sheet     */
+/* ---------------------------------- */
+
+/* A row of trackers placed below the HP/temp HP meter. */
+.sogrom-economy-tracker-row {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.sogrom-economy-tracker-row .sogrom-economy-tracker {
+  width: 24px;
+  height: 24px;
+  font-size: var(--font-size-11);
+}
+
+/* ---------------------------------- */
+/*  Portrait position - Character sheet */
+/* ---------------------------------- */
+
+/* A collapsible tray centered above the portrait, expanding upward over the sheet
+   header, styled like the death saves tray. */
+.dnd5e2.character .sheet-header {
+  overflow: visible;
+}
+
+.sogrom-tracker-tray {
+  --panel-height: 56px;
+  --lip: 7px;
+  --tx: 0px;
+  --ty: calc(var(--panel-height) + var(--lip));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  /* .main-content has an 8px left padding that offsets the sidebar/portrait/death-tray
+     from the edge of .sheet-header; match that offset so the tray lines up with them. */
+  left: 8px;
+  bottom: 0;
+  width: var(--dnd5e-sheet-sidebar-width);
+  /* Below the portrait card (z-index: 1) so the lip overlap sits behind/underneath
+     the portrait's edge, like the sidebar collapser tab. */
+  z-index: 0;
+  transform: translate(var(--tx), var(--ty));
+  transition: transform 300ms ease;
+}
+
+/* Open: slide the whole tray up so the tab moves on top of the now-visible panel,
+   and raise it above the portrait card so the panel itself is visible. */
+.sogrom-tracker-tray.sogrom-open {
+  --ty: 0px;
+  z-index: 3;
+}
+
+/* Slide the tray out with the rest of the sidebar when it is collapsed, fading it
+   out so it disappears by the time it would have moved out of view. */
+.dnd5e2.character.sidebar-collapsed .sogrom-tracker-tray {
+  --tx: calc(var(--dnd5e-sheet-sidebar-width) * -1);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 300ms ease, opacity 300ms ease;
+}
+
+/* The tray is anchored to the header, but the portrait it sits on scrolls with
+   .main-content - hide it once the portrait has scrolled out from under it. */
+.sogrom-tracker-tray.sogrom-scrolled {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 150ms ease;
+}
+
+.sogrom-tracker-tab {
+  width: 32px;
+  height: 20px;
+  border: none;
+  border-radius: 3px 3px 0 0;
+  background: var(--dnd5e-background-alt-2);
+  display: grid;
+  place-content: center;
+  cursor: var(--cursor-pointer);
+  box-shadow: 0 0 6px var(--color-shadow-dark);
+  position: relative;
+  z-index: 1;
+}
+
+.sogrom-tracker-tab i {
+  color: var(--dnd5e-color-gold);
+  font-size: 12px;
+  margin: 0;
+}
+
+.sogrom-tracker-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: calc(100% - 16px);
+  height: var(--panel-height);
+  margin-top: -1px;
+  box-sizing: border-box;
+  background: black;
+  border: 1px solid var(--dnd5e-color-gold);
+  border-radius: 5px 5px 0 0;
+  box-shadow: 0 0 6px var(--color-shadow-dark);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 200ms ease, visibility 0s linear 200ms;
+}
+
+.sogrom-tracker-tray.sogrom-open .sogrom-tracker-panel {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 200ms ease 100ms, visibility 0s linear;
+}
+
+.sogrom-tracker-panel .sogrom-economy-tracker {
+  width: 32px;
+  height: 32px;
+  font-size: var(--font-size-14);
 }
